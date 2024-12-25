@@ -58,6 +58,6 @@ def extract_frames(video_path, output_dir, frame_rate=1):
 
 # Main execution
 if __name__ == "__main__":
-    INPUT_VIDEO = "data/input_videos/sample.mp4"  # Replace with your video path
+    INPUT_VIDEO = "data/input_videos/Programming Should Be Simple.mp4"  # Replace with your video path
     OUTPUT_DIR = "data/frames/"
     extract_frames(INPUT_VIDEO, OUTPUT_DIR, frame_rate=1)
