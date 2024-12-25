@@ -1,63 +1,79 @@
 """
-Main script for the Automated Video Summarization pipeline.
+Main script to automate the entire video summarization pipeline.
+"""
+
+"""
+Main script to automate the entire video summarization pipeline.
 """
 
 import argparse
 import os
-from src.youtube_downloader import download_youtube_video
+import numpy as np  # Import NumPy for saving features
 from src.preprocessing import extract_frames
+from src.keyframe_detection import detect_keyframes
+from src.feature_extraction import extract_features
+from src.summarization import summarize_keyframes
+from src.reconstruction import reconstruct_video
 
 
-def main(youtube_url=None, input_video=None, output_dir="data/frames/", frame_rate=1, cookies_file=None):
+
+def main(input_video, output_dir, frame_rate=1, n_clusters=5, fps=1):
     """
-    Main pipeline for processing YouTube or local videos.
+    Automates the video summarization pipeline.
 
     Args:
-        youtube_url (str): URL of the YouTube video to process.
-        input_video (str): Path to a local video file.
-        output_dir (str): Directory to save the extracted frames.
+        input_video (str): Path to the input video file.
+        output_dir (str): Directory to save intermediate and final results.
         frame_rate (int): Frame extraction rate in seconds.
-        cookies_file (str): Path to cookies file for YouTube authentication.
+        n_clusters (int): Number of clusters for keyframe summarization.
+        fps (int): Frames per second for the output summarized video.
     """
-    os.makedirs(output_dir, exist_ok=True)
+    # Ensure output directories exist
+    frames_dir = os.path.join(output_dir, "frames")
+    summaries_dir = os.path.join(output_dir, "summaries")
+    os.makedirs(frames_dir, exist_ok=True)
+    os.makedirs(summaries_dir, exist_ok=True)
 
-    if youtube_url:
-        # Download YouTube video
-        print("Processing YouTube video...")
-        input_video = download_youtube_video(
-            youtube_url, "data/input_videos/", cookies_file)
-        if input_video is None:
-            print("Failed to download YouTube video. Exiting.")
-            return
+    # Step 1: Extract frames from the input video
+    print("\nStep 1: Extracting frames...")
+    extract_frames(input_video, frames_dir, frame_rate)
 
-    if not input_video:
-        print("Error: No input video provided.")
-        return
+    # Step 2: Detect keyframes
+    print("\nStep 2: Detecting keyframes...")
+    keyframe_files = detect_keyframes(frames_dir, threshold=0.5)
 
-    # Extract frames
-    print("Extracting frames from video...")
-    extract_frames(input_video, output_dir, frame_rate)
+    # Step 3: Extract features from keyframes
+    print("\nStep 3: Extracting features...")
+    features_file = os.path.join(output_dir, "features.npy")
+    features = extract_features(keyframe_files)
+    np.save(features_file, features)
+
+    # Step 4: Summarize keyframes using clustering
+    print("\nStep 4: Summarizing keyframes...")
+    summary_keyframes = summarize_keyframes(features_file, summaries_dir, n_clusters)
+
+    # Step 5: Reconstruct the summarized video
+    print("\nStep 5: Reconstructing summarized video...")
+    output_video = os.path.join(output_dir, "summarized_video.mp4")
+    reconstruct_video(summaries_dir, output_video, fps)
+
+    print("\nPipeline completed successfully!")
+    print(f"Summarized video saved to: {output_video}")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Automated Video Summarization")
-    parser.add_argument("--youtube_url", type=str,
-                        help="URL of the YouTube video to process")
-    parser.add_argument("--input_video", type=str,
-                        help="Path to a local video file")
-    parser.add_argument("--output_dir", type=str, default="data/frames/",
-                        help="Directory to save extracted frames")
-    parser.add_argument("--frame_rate", type=int, default=1,
-                        help="Frame extraction rate in seconds")
-    parser.add_argument("--cookies_file", type=str,
-                        default="data/cookies/cookies.txt", help="Path to YouTube cookies file")
+    parser = argparse.ArgumentParser(description="Automated Video Summarization")
+    parser.add_argument("--input_video", type=str, required=True, help="Path to the input video file")
+    parser.add_argument("--output_dir", type=str, default="data", help="Directory to save results")
+    parser.add_argument("--frame_rate", type=int, default=1, help="Frame extraction rate in seconds")
+    parser.add_argument("--n_clusters", type=int, default=5, help="Number of clusters for summarization")
+    parser.add_argument("--fps", type=int, default=1, help="Frames per second for the output summarized video")
 
     args = parser.parse_args()
     main(
-        youtube_url=args.youtube_url,
         input_video=args.input_video,
         output_dir=args.output_dir,
         frame_rate=args.frame_rate,
-        cookies_file=args.cookies_file,
+        n_clusters=args.n_clusters,
+        fps=args.fps,
     )
