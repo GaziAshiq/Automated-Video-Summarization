@@ -1,0 +1,4 @@
+Dino is the simplest way to program. It comes with TypeScript, all-in-one tooling, and Webstandard APIs. Dino is secured by default, so every dependency doesn't have full access to your computer.
+
+Thousands of developers use Dino, because programming should be simple. Thousands of developers are using Dino, and it's been a huge success. It's been used by over 100,000 developers.
+

@@ -1,0 +1,80 @@
+0
+00:00:00,000 --> 00:00:12,000
+ Hi, I'm Ryan Doll. You might know me as the creator of Node.js. As a programmer, I like things that are simple.
+
+1
+00:00:17,000 --> 00:00:26,000
+ Really simple. Programming should be simple. That's why I created Node. But these days, Node is not simple.
+
+2
+00:00:30,000 --> 00:00:33,000
+ Just ask Rachel. She's been here for days.
+
+3
+00:00:42,000 --> 00:00:47,000
+ And here's Steve commemorating the 20th test framework he's recently learned.
+
+4
+00:00:47,000 --> 00:00:49,000
+ Please be gentle.
+
+5
+00:00:49,000 --> 00:00:53,000
+ Okay. I'm good.
+
+6
+00:00:53,000 --> 00:00:58,000
+ Getting Node APIs to work in the browser can be...
+
+7
+00:01:00,000 --> 00:01:03,000
+ ...frustrating.
+
+8
+00:01:03,000 --> 00:01:09,000
+ Security is also a nightmare. NPM packages have access to everything.
+
+9
+00:01:10,000 --> 00:01:11,000
+ Go, go, go.
+
+10
+00:01:11,000 --> 00:01:13,000
+ Reverse it! Reverse it!
+
+11
+00:01:23,000 --> 00:01:30,000
+ But you can be a faster, more productive developer with Dino, the simplest way to program.
+
+12
+00:01:31,000 --> 00:01:38,000
+ Dino comes with TypeScript, all-in-one tooling, and Webstandard APIs so you can write once and run anywhere.
+
+13
+00:01:38,000 --> 00:01:40,000
+ Anywhere? Anywhere.
+
+14
+00:01:43,000 --> 00:01:48,000
+ Dino is secured by default, so every dependency doesn't have full access to your computer.
+
+15
+00:01:56,000 --> 00:01:59,000
+ And you don't have to give up the packages you love from NPM.
+
+16
+00:01:59,000 --> 00:02:01,000
+ I thought you were good at it, girl.
+
+17
+00:02:01,000 --> 00:02:02,000
+ Yeah.
+
+18
+00:02:04,000 --> 00:02:05,000
+ And many more.
+
+19
+00:02:08,000 --> 00:02:15,000
+ So join hundreds of thousands of developers using Dino, because programming should be simple.
+
